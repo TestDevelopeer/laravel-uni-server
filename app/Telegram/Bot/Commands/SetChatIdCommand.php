@@ -42,10 +42,10 @@ class SetChatIdCommand extends Command
                     'text' => "Пользователь #{$userId} не найден в базе!"
                 ]);
             } else {
-                TelegramSetting::where('user_id', $userId)->updateOrCreate([
+                TelegramSetting::updateOrCreate(['user_id', $userId], [
                    'user_id' => $userId,
-                   'telegram_chat_id' => $chatId,
-                   'telegram_username' => $userName
+                   'chat_id' => $chatId,
+                   'username' => $userName
                 ]);
 
                 $this->replyWithMessage([

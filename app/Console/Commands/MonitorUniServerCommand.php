@@ -26,7 +26,7 @@ class MonitorUniServerCommand extends Command
             $newRecord = $uniServer->checkForNewRecords();
             var_dump($request->user());
             if ($newRecord) {
-                $chatId = TelegramSetting::where('user_id', Auth::id())->select('telegram_chat_id')->first();
+                $chatId = TelegramSetting::where('user_id', Auth::id())->select('chat_id')->first();
 
                 $message = $telegram->formatRecordMessage($newRecord);
                 $telegram->sendNotification($message, $chatId);

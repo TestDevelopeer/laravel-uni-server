@@ -16,8 +16,8 @@ class TelegramSettingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'telegram_chat_id' => $this->telegram_chat_id,
-            'telegram_username' => $this->telegram_username,
+            'chat_id' => $this->chat_id,
+            'username' => $this->username,
             'created_at' => $this->created_at
         ];
     }

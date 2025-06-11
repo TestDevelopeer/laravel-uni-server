@@ -8,7 +8,7 @@ class TelegramSetting extends Model
 {
     protected $fillable = [
         'user_id',
-        'telegram_chat_id',
-        'telegram_username',
+        'chat_id',
+        'username',
     ];
 }
