@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->integer('identification');
             $table->string('code');
             $table->timestamps();
         });
