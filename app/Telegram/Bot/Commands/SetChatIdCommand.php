@@ -4,6 +4,8 @@ namespace App\Telegram\Bot\Commands;
 
 use App\Models\TelegramSetting;
 use App\Models\User;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Commands\Command;
 
 class SetChatIdCommand extends Command
@@ -42,15 +44,25 @@ class SetChatIdCommand extends Command
                     'text' => "Пользователь #{$userId} не найден в базе!"
                 ]);
             } else {
-                TelegramSetting::updateOrCreate(['user_id', $userId], [
-                   'user_id' => $userId,
-                   'chat_id' => $chatId,
-                   'username' => $userName
-                ]);
+                try {
+                    TelegramSetting::updateOrCreate(['user_id' => $userId], [
+                        'user_id' => $userId,
+                        'chat_id' => $chatId,
+                        'username' => $userName
+                    ]);
 
-                $this->replyWithMessage([
-                    'text' => "ChatID: {$chatId} успешно привязан к пользователю #{$userId}"
-                ]);
+                    $this->replyWithMessage([
+                        'text' => "ChatID: {$chatId} успешно привязан к пользователю #{$userId}"
+                    ]);
+                } catch (QueryException $e) {
+                    $this->replyWithMessage([
+                        'text' => "Ошибка базы данных"
+                    ]);
+                } catch (\Exception $e) {
+                    $this->replyWithMessage([
+                        'text' => "Ошибка"
+                    ]);
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function chat(Request $request): ?JsonResponse
+    public function update(Request $request): ?JsonResponse
     {
         $data = $request->validate([
             'chat_id' => 'required|integer',
