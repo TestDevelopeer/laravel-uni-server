@@ -25,7 +25,6 @@ class UserFactory extends Factory
     {
         return [
             'name' => config('user.name'),
-            'email' => config('user.email'),
             'password' => Hash::make(config('user.password')),
             'role' => 'admin',
             'remember_token' => Str::random(10),

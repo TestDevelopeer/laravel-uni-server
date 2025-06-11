@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->integer('telegram_chat_id')->unique();
-            $table->string('telegram_username')->unique();
+            $table->string('telegram_username')->unique()->nullable();
             $table->timestamps();
         });
     }
