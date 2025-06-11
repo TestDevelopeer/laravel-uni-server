@@ -18,42 +18,17 @@ class TelegramBotController extends Controller
     public function webhook(Request $request): JsonResponse
     {
         $update = Telegram::commandsHandler(true);
-        Log::debug('UPDATE: ', [$update]);
-        // Обработка команды /start с параметром
-        if (isset($update['message']['text']) && str_starts_with($update['message']['text'], '/login')) {
-            $text = $update['message']['text'];
-            $parts = explode(' ', $text);
-
-            if (count($parts) > 1) {
-                $data = $parts[1]; // Это будет DATA123
-                $user = User::find($data);
-
-                if ($user) {
-                    $user->update([
-                        'telegram_id' => $update['message']['from']['id'],
-                        'telegram_chat_id' => $update['message']['chat']['id'],
-                        'telegram_username' => $update['message']['from']['username'],
-                    ]);
-
-                    Telegram::sendMessage([
-                        'chat_id' => $update['message']['chat']['id'],
-                        'text' => "Успешно: аккаунт привязан"
-                    ]);
-                } else {
-                    Telegram::sendMessage([
-                        'chat_id' => $update['message']['chat']['id'],
-                        'text' => "Ошибка: пользователь не найден"
-                    ]);
-                }
-                // Здесь можно обработать $data
-                // Например, сохранить в базу или отправить ответ
-                //
-
-                // Дополнительная обработка (например, очередь)
-                // ProcessData::dispatch($data)->onQueue('telegram');
-            }
-        }
 
         return response()->json(['status' => 'success']);
+    }
+
+    /**
+     * @throws TelegramSDKException
+     */
+    public function setWebhook(Request $request): JsonResponse
+    {
+        $response = Telegram::setWebhook(['url' => config('telegram.bots.mybot.webhook_url')]);
+
+        return response()->json($response);
     }
 }

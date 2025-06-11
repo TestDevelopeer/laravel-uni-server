@@ -33,13 +33,13 @@ return [
     'bots' => [
         'mybot' => [
             'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
-            'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url' => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             /*
              * @see https://core.telegram.org/bots/api#update
              */
             'allowed_updates' => null,
             'commands' => [
+                \App\Telegram\Bot\Commands\SetChatIdCommand::class
                 // Acme\Project\Commands\MyTelegramBot\BotCommand::class
             ],
         ],

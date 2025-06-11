@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TelegramBotController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::patch('/settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('/telegram/set/webhook', [TelegramBotController::class, 'setWebhook'])->name('telegram.set.webhook');
 });
 
 require __DIR__ . '/auth.php';
