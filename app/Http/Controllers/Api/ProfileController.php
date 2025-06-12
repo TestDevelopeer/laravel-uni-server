@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\TelegramSettingResource;
 use App\Http\Resources\UserResource;
 use App\Models\TelegramSetting;
@@ -22,33 +23,20 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update(Request $request): ?JsonResponse
+    public function update(ProfileUpdateRequest $request): ?JsonResponse
     {
-        $data = $request->validate([
-            'chat_id' => 'required|integer',
-            'username' => 'string|nullable',
-        ]);
-
-        $user = $request->user();
+        $data = $request->validated();
+        $userId = $request->user()->id;
 
         try {
-            TelegramSetting::updateOrCreate(['user_id' => $user->id], ['chat_id' => $data['chat_id'], 'username' => $data['username']]);
-
-            // Успешное выполнение
-            return response()->json(['success' => 'ChatID успешно привязан к пользователю'], );
+            TelegramSetting::updateOrCreate(['user_id' => $userId], ['chat_id' => $data['chat_id'], 'username' => $data['username']]);
+            return response()->json(['success' => "ChatID #{$data['chat_id']} успешно привязан к пользователю #{$userId}"], );
         } catch (QueryException $e) {
-            // Ошибка базы данных (например, дубликат ключа, синтаксическая ошибка и т. д.)
-            $errorCode = $e->getCode(); // Код ошибки SQL (зависит от СУБД)
+            $errorCode = $e->getCode();
             $errorMessage = $e->getMessage();
-
-            // Например, для MySQL:
-            // - 1062: Duplicate entry (ошибка дублирования уникального ключа)
-            // - 1452: Cannot add or update a child row (ошибка внешнего ключа)
-
-            return response()->json(['error' => 'Database error: ' . $errorMessage], 500);
+            return response()->json(['error' => "Database error CODE {$errorCode}: {$errorMessage}"], 500);
         } catch (\Exception $e) {
-            // Другие исключения (например, проблемы с валидацией)
-            return response()->json(['error' => 'Error: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error: ' . $e->getMessage()], $e->getCode());
         }
     }
 }

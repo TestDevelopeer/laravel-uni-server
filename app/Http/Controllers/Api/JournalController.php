@@ -27,14 +27,13 @@ class JournalController extends Controller
                 'user_id' => $request->user()->id,
                 'code' => $request->code,
             ]);
+            return response()->json(['success' => 'Последний журнал успешно обновлен'], );
         } catch (QueryException $e) {
-            $errorCode = $e->getCode(); // Код ошибки SQL (зависит от СУБД)
+            $errorCode = $e->getCode();
             $errorMessage = $e->getMessage();
-            return response()->json(['error' => 'Database error: ' . $errorMessage], $errorCode);
+            return response()->json(['error' => "Database error CODE {$errorCode}: {$errorMessage}"], 500);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error: ' . $e->getMessage()], $e->getCode());
         }
-
-        return response()->json(['success' => 'Последний журнал успешно обновлен'], );
     }
 }

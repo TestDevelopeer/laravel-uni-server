@@ -22,7 +22,7 @@ class SetChatIdCommand extends Command
     /**
      * @var string Command Description
      */
-    protected string $description = 'Закрепить ID данного чата за пользователем';
+    protected string $description = 'Закрепить ID данного чата за пользователем, передайте ID пользователя сразу после команды';
 
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ class SetChatIdCommand extends Command
 
         if (!$userId) {
             $this->replyWithMessage([
-                'text' => "Укажите ID пользователя из базы сразу после команды или впишите данный ChatID вручную в панели администратора: {$chatId}"
+                'text' => "Укажите ID пользователя из базы сразу после команды или впишите данный ChatID вручную в настройках профиля пользователя: {$chatId}"
             ]);
         } else {
             $user = User::find($userId);
@@ -50,17 +50,16 @@ class SetChatIdCommand extends Command
                         'chat_id' => $chatId,
                         'username' => $userName
                     ]);
-
                     $this->replyWithMessage([
-                        'text' => "ChatID: {$chatId} успешно привязан к пользователю #{$userId}"
+                        'text' => "ChatID #{$chatId} успешно привязан к пользователю #{$userId}"
                     ]);
                 } catch (QueryException $e) {
                     $this->replyWithMessage([
-                        'text' => "Ошибка базы данных"
+                        'text' => "Ошибка базы данных: CODE {$e->getCode()}"
                     ]);
                 } catch (\Exception $e) {
                     $this->replyWithMessage([
-                        'text' => "Ошибка"
+                        'text' => "Ошибка: CODE {$e->getCode()}"
                     ]);
                 }
             }

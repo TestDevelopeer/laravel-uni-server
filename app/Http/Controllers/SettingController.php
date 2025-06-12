@@ -11,7 +11,6 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::all();
-
         return view('settings.index', compact('settings'));
     }
 
@@ -19,7 +18,6 @@ class SettingController extends Controller
     {
         $setting->status = !$setting->status;
         $setting->save();
-
         return redirect()->back();
     }
 }
