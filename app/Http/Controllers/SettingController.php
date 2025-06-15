@@ -8,9 +8,10 @@ use Illuminate\Http\RedirectResponse;
 class SettingController extends Controller
 {
     //
-    public function index()
+    public function show()
     {
         $settings = Setting::all();
+
         return view('settings.index', compact('settings'));
     }
 
@@ -18,6 +19,7 @@ class SettingController extends Controller
     {
         $setting->status = !$setting->status;
         $setting->save();
+        
         return redirect()->back();
     }
 }

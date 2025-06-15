@@ -12,8 +12,12 @@ class TelegramSettingResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request): array|null
     {
+        if ($this === null) {
+            return null;
+        }
+
         return [
             'id' => $this->id,
             'chat_id' => $this->chat_id,

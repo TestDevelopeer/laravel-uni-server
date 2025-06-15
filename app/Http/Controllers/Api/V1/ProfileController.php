@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
@@ -19,7 +19,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'user' => new UserResource($user),
-            'telegram' => $user->telegram ? new TelegramSettingResource($user->telegram) : null
+            'telegram' => new TelegramSettingResource($user->telegram)
         ]);
     }
 
@@ -29,14 +29,19 @@ class ProfileController extends Controller
         $userId = $request->user()->id;
 
         try {
-            TelegramSetting::updateOrCreate(['user_id' => $userId], ['chat_id' => $data['chat_id'], 'username' => $data['username']]);
-            return response()->json(['success' => "ChatID #{$data['chat_id']} успешно привязан к пользователю #{$userId}"], );
+            TelegramSetting::updateOrCreate(
+                ['user_id' => $userId],
+                [
+                    'chat_id' => $data['chat_id'],
+                    'username' => $data['username']
+                ]
+            );
+
+            return response()->json(['success' => "ChatID #{$data['chat_id']} успешно привязан к пользователю #{$userId}"]);
         } catch (QueryException $e) {
-            $errorCode = $e->getCode();
-            $errorMessage = $e->getMessage();
-            return response()->json(['error' => "Database error CODE {$errorCode}: {$errorMessage}"], 500);
+            return response()->json(['error' => "Database error CODE {$e->getCode()}: {$e->getMessage()}"], 500);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error: ' . $e->getMessage()], $e->getCode());
+            return response()->json(['error' => "Error: {$e->getMessage()}"], $e->getCode());
         }
     }
 }

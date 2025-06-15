@@ -12,8 +12,12 @@ class JournalResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request): array|null
     {
+        if ($this === null) {
+            return null;
+        }
+
         return [
             'CODE' => $this->code
         ];
