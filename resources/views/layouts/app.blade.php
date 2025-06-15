@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<!-- Mirrored from seantheme.com/quantum/page_login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Jun 2025 12:04:00 GMT -->
+<head>
+    <meta charset="utf-8"/>
+    <title>Quantum | Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet"/>
+    <!-- ================== END core-css ================== -->
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/vendor/bootstrap.min.css', 'resources/js/vendor/bootstrap.min.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+</head>
+<body>
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-dark dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+<x-includes.loader/>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+<!-- BEGIN #app -->
+<div id="app" class="app">
+    <x-navigation.header/>
+    <x-navigation.sidebar/>
+    {{ $slot }}
+</div>
+
+<!-- ================== BEGIN core-js ================== -->
+<script src="{{ asset('assets/js/iconify-icon/2.1.0/iconify-icon.min.js') }}"></script>
+<script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+<script src="{{ asset('assets/js/app.min.js') }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
+<!-- ================== END core-js ================== -->
+<script src="{{ asset('assets/js/demo/sidebar-scrollspy.demo.js') }}"></script>
+</body>
 </html>

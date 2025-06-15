@@ -12,14 +12,14 @@ class SettingController extends Controller
     {
         $settings = Setting::all();
 
-        return view('settings.index', compact('settings'));
+        return view('pages.settings.index', compact('settings'));
     }
 
     public function update(Setting $setting): RedirectResponse
     {
         $setting->status = !$setting->status;
         $setting->save();
-        
+
         return redirect()->back();
     }
 }

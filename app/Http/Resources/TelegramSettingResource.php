@@ -14,7 +14,7 @@ class TelegramSettingResource extends JsonResource
      */
     public function toArray(Request $request): array|null
     {
-        if ($this === null) {
+        if ($this->resource === null) {
             return null;
         }
 

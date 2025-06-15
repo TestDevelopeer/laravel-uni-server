@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\TelegramSettingResource;
+use App\Http\Resources\UniserverUserResource;
 use App\Http\Resources\UserResource;
 use App\Models\TelegramSetting;
 use Illuminate\Database\QueryException;
@@ -19,7 +20,8 @@ class ProfileController extends Controller
 
         return response()->json([
             'user' => new UserResource($user),
-            'telegram' => new TelegramSettingResource($user->telegram)
+            'telegram' => new TelegramSettingResource($user->telegram),
+            'uniserver_user' => new UniserverUserResource($user->uniserver)
         ]);
     }
 
