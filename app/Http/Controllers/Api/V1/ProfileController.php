@@ -31,10 +31,7 @@ class ProfileController extends Controller
         try {
             TelegramSetting::updateOrCreate(
                 ['user_id' => $userId],
-                [
-                    'chat_id' => $data['chat_id'],
-                    'username' => $data['username']
-                ]
+                ['chat_id' => $data['chat_id']]
             );
 
             return response()->json(['success' => "ChatID #{$data['chat_id']} успешно привязан к пользователю #{$userId}"]);

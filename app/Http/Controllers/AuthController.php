@@ -26,7 +26,6 @@ class AuthController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
         $request->ensureIsNotRateLimited();
 
         if (!Auth::attempt(['name' => $data['name'], 'password' => $data['password']], $data['remember'] ?? false)) {
